@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import '../models/product.dart';
 
 const List<Category> categories = [
-  Category(id: '0', name: 'All', icon: Icons.all_inbox),
-  Category(id: '1', name: 'Electronics', icon: Icons.computer),
-  Category(id: '2', name: 'Books', icon: Icons.book),
-  Category(id: '3', name: 'Clothing', icon: Icons.checkroom),
-  Category(id: '4', name: 'Home', icon: Icons.home),
+  Category(id: 'all', name: 'All', icon: Icons.all_inbox),
+  Category(id: 'electronics', name: 'Electronics', icon: Icons.computer),
+  Category(id: 'books', name: 'Books', icon: Icons.book),
+  Category(id: 'clothing', name: 'Clothing', icon: Icons.checkroom),
+  Category(id: 'home', name: 'Home', icon: Icons.home),
 ];
 
 const List<Product> mockProducts = [
@@ -14,16 +14,28 @@ const List<Product> mockProducts = [
     id: '1',
     name: 'Laptop',
     price: 1000,
-    categoryId: '1',
+    categoryId: 'electronics',
     icon: Icons.computer,
   ),
-  Product(id: '2', name: 'Book', price: 10, categoryId: '2', icon: Icons.book),
+  Product(
+    id: '2',
+    name: 'Book',
+    price: 10,
+    categoryId: 'books',
+    icon: Icons.book,
+  ),
   Product(
     id: '3',
     name: 'Shirt',
     price: 20,
-    categoryId: '3',
+    categoryId: 'clothing',
     icon: Icons.checkroom,
   ),
-  Product(id: '4', name: 'Table', price: 30, categoryId: '4', icon: Icons.home),
+  Product(
+    id: '4',
+    name: 'Table',
+    price: 30,
+    categoryId: 'home',
+    icon: Icons.home,
+  ),
 ];
