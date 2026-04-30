@@ -9,7 +9,7 @@ const List<Category> categories = [
   Category(id: '4', name: 'Home', icon: Icons.home),
 ];
 
-const List<Product> products = [
+const List<Product> mockProducts = [
   Product(
     id: '1',
     name: 'Laptop',
