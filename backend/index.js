@@ -83,3 +83,44 @@ app.get('/api/health', async (req, res) => {
         res.status(500).json({ status: 'error', message: err.message });
     }
 });
+
+
+// Registro de usuario
+app.post('/api/auth/register', async (req, res) => {
+    try {
+        const { username, email, password, fullName } = req.body;
+
+        if (!username || !email || !password) {
+            return res.status(400).json({ message: 'Faltan datos obligatorios' });
+        }
+
+        const conn = await pool.getConnection();
+        try {
+            const [rows] = await conn.execute(
+                'SELECT id FROM users WHERE email = ? OR username = ? LIMIT 1',
+                [email, username],
+            );
+            if (rows.length > 0) {
+                return res
+                    .status(409)
+                    .json({ message: 'Ese correo o usuario ya está registrado' });
+            }
+
+            const hash = await bcrypt.hash(password, 10);
+
+            await conn.execute(
+                'INSERT INTO users (username, email, password, full_name) VALUES (?, ?, ?, ?)',
+                [username, email, hash, fullName || null],
+            );
+
+            return res
+                .status(201)
+                .json({ message: 'Usuario registrado correctamente' });
+        } finally {
+            conn.release();
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error en el servidor' });
+    }
+});
