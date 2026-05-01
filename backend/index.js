@@ -43,6 +43,7 @@ const pool = mysql.createPool({
 });
 
 
+// Debug: ver qué base de datos usa el backend y cuántos usuarios hay
 app.get('/api/debug-db', async (req, res) => {
     try {
         const conn = await pool.getConnection();
@@ -67,5 +68,18 @@ app.get('/api/debug-db', async (req, res) => {
         });
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+// Simple health check
+app.get('/api/health', async (req, res) => {
+    try {
+        const conn = await pool.getConnection();
+        await conn.ping();
+        conn.release();
+        res.json({ status: 'ok' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ status: 'error', message: err.message });
     }
 });
