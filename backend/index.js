@@ -20,3 +20,8 @@ if (fs.existsSync(envPath)) {
         }
     });
 }
+
+if (!process.env.DB_NAME) {
+    console.error('ERROR: DB_NAME no esta definido. Revisa que backend/ .env contenga DB_NAME=flutterecomsalle');
+    process.exit(1);
+}
