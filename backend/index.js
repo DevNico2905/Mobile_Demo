@@ -41,3 +41,31 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT || 3306,
 });
+
+
+app.get('/api/debug-db', async (req, res) => {
+    try {
+        const conn = await pool.getConnection();
+        const dbName = process.env.DB_NAME;
+        let count = null;
+        try {
+            const [rows] = await conn.execute(
+                'SELECT COUNT(*) as total FROM users',
+            );
+            count = rows[0].total;
+        } catch (e) {
+            count = 'error: ' + e.message;
+        }
+        conn.release();
+        res.json({
+            database: dbName,
+            usersCount: count,
+            message:
+                dbName === 'flutterecomsalle'
+                    ? 'OK, backend usa flutterecomsalle'
+                    : 'CUIDADO: backend NO está usando flutterecomsalle',
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
