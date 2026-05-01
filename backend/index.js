@@ -25,3 +25,8 @@ if (!process.env.DB_NAME) {
     console.error('ERROR: DB_NAME no esta definido. Revisa que backend/ .env contenga DB_NAME=flutterecomsalle');
     process.exit(1);
 }
+
+const express = require('express');
+const cors = require('cors');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcryptjs');
