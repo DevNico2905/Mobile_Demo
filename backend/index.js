@@ -124,3 +124,52 @@ app.post('/api/auth/register', async (req, res) => {
         return res.status(500).json({ message: 'Error en el servidor' });
     }
 });
+
+//login
+app.post('/api/auth/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Faltan datos obligatorios' });
+        }
+
+        const conn = await pool.getConnection();
+        try {
+            const [rows] = await conn.execute(
+                'SELECT id, email, password, full_name, username FROM users WHERE email = ? OR username = ? LIMIT 1',
+                [email, email],
+            );
+
+            if (rows.length === 0) {
+                return res
+                    .status(401)
+                    .json({ message: 'Correo o usuario no registrado' });
+            }
+
+            const user = rows[0];
+            const match = await bcrypt.compare(password, user.password);
+
+            if (!match) {
+                return res.status(401).json({ message: 'Contraseña incorrecta' });
+            }
+
+            return res.status(200).json({
+                message: 'Inicio de sesión exitoso',
+                userId: user.id,
+                email: user.email,
+                fullName: user.full_name,
+                username: user.username
+            });
+        } finally {
+            conn.release();
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Error en el servidor' });
+    }
+});
+
+
+
+
