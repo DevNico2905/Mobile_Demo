@@ -170,6 +170,22 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-
+//listado productos desde mysql
+app.get('/api/products', async (req, res) => {
+    try {
+        const conn = await pool.getConnection();
+        try {
+            const [rows] = await conn.execute(
+                'SELECT id, name, description, price, image_url FROM products',
+            );
+            res.json(rows);
+        } finally {
+            conn.release();
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al obtener productos' });
+    }
+});
 
 
