@@ -4,7 +4,7 @@ import '../core/app_theme.dart';
 import '../providers/login_provider.dart';
 import 'home_screen.dart';
 import 'registration_screen.dart';
-import '../widget/social_buttons.dart';
+import '../widget/social_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -84,10 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Subtítulo
                   const Text(
                     'Accede a tu cuenta',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
                   const SizedBox(height: 30),
 
@@ -119,8 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Ingresa tu correo';
                       }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                          .hasMatch(value)) {
+                      if (!RegExp(
+                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(value)) {
                         return 'Correo no válido';
                       }
                       return null;
@@ -236,10 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         child: Text(
                           'o continuar con',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 13,
-                          ),
+                          style: TextStyle(color: Colors.grey, fontSize: 13),
                         ),
                       ),
                       Expanded(child: Divider(color: Colors.grey)),
@@ -257,10 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Text(
                         '¿No tienes cuenta? ',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                       GestureDetector(
                         onTap: () {
